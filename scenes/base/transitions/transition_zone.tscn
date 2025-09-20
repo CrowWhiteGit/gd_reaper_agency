@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1ptan6favc21"]
+
+[ext_resource type="Script" uid="uid://cgjvgqm03u586" path="res://scenes/base/transitions/transition_zone.gd" id="1_hff0q"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hff0q"]
+radius = 30.0
+
+[node name="TransitionZone" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_hff0q")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hff0q")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

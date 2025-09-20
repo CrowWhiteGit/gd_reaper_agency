@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://djtygdm6f5ei2"]
+
+[ext_resource type="Script" uid="uid://guqe38rnxex4" path="res://scenes/base/Action/base_action.gd" id="1_mhfey"]
+
+[node name="BaseAction" type="Node"]
+script = ExtResource("1_mhfey")

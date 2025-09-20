@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ygb31mmdpq3w"]
+
+[ext_resource type="Script" uid="uid://beoi60nrovl8a" path="res://scenes/system/Loader/loader.gd" id="1_gr5jn"]
+
+[node name="Loader" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_gr5jn")

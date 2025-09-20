@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1b67c5tm0g0t"]
+
+[ext_resource type="Script" uid="uid://dqvn51q33nnx7" path="res://scenes/system/ControlUnit/control_unit.gd" id="1_uap52"]
+
+[node name="ControlUnit" type="Node"]
+script = ExtResource("1_uap52")

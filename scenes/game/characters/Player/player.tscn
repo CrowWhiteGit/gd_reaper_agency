@@ -1,0 +1,109 @@
+[gd_scene load_steps=12 format=3 uid="uid://d1vaowyojei5t"]
+
+[ext_resource type="PackedScene" uid="uid://dmmg7ih4b1o5v" path="res://scenes/base/Character/base_character.tscn" id="1_mjrsk"]
+[ext_resource type="Texture2D" uid="uid://bbx3teqyeb0ng" path="res://assets/characters/rat.png" id="2_lrdsq"]
+[ext_resource type="PackedScene" uid="uid://d1b67c5tm0g0t" path="res://scenes/system/ControlUnit/control_unit.tscn" id="2_lv4co"]
+
+[sub_resource type="GDScript" id="GDScript_lv4co"]
+script/source = "extends BaseAction
+
+@export var jumpVelocity: float
+
+var start_timestamp = 0
+	
+func start(params: Dictionary = {}) -> void:
+	var _velocity = jumpVelocity
+	#for key in onJumpHooks.keys():
+		#var hook = onJumpHooks[key]
+		#_velocity = hook.call(_velocity)
+	if _parent.is_on_floor(): 
+		_parent.velocity.y -= _velocity
+		#if _parent.has_method('change_animation'): parent.change_animation('jumpstart')
+"
+
+[sub_resource type="Animation" id="Animation_owi8c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_lv4co"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2i(0, 0), Vector2i(5, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1smk2"]
+_data = {
+&"RESET": SubResource("Animation_owi8c"),
+&"idle": SubResource("Animation_lv4co")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lrdsq"]
+size = Vector2(158.5, 93.1875)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lrdsq"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lv4co"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_owi8c"]
+states/idle/node = SubResource("AnimationNodeAnimation_lrdsq")
+states/idle/position = Vector2(378, 55)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_lv4co")]
+
+[node name="Player" instance=ExtResource("1_mjrsk")]
+speed = 50000.0
+acceleration = 10000.0
+gravity = 3.0
+AI_enabled = false
+
+[node name="ControlUnit" parent="." index="0" instance=ExtResource("2_lv4co")]
+
+[node name="Jump" type="Node" parent="ControlUnit" index="0"]
+script = SubResource("GDScript_lv4co")
+jumpVelocity = 1200.0
+actionName = "jump"
+metadata/_custom_type_script = "uid://guqe38rnxex4"
+
+[node name="Sprite" type="Sprite2D" parent="." index="1"]
+position = Vector2(-44, -2)
+scale = Vector2(0.722561, 0.722561)
+texture = ExtResource("2_lrdsq")
+hframes = 6
+vframes = 2
+
+[node name="Animation" type="AnimationPlayer" parent="." index="2"]
+libraries = {
+&"": SubResource("AnimationLibrary_1smk2")
+}
+
+[node name="Collision" type="CollisionShape2D" parent="." index="3"]
+position = Vector2(20, -6)
+shape = SubResource("RectangleShape2D_lrdsq")
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="4"]
+tree_root = SubResource("AnimationNodeStateMachine_owi8c")
+anim_player = NodePath("../Animation")
+
+[node name="Node" type="Node" parent="." index="5"]

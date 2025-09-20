@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://kmoa2jujft4t"]
+
+[ext_resource type="Script" uid="uid://dd8agol03rxvj" path="res://scenes/base/Room/base_room.gd" id="1_3l724"]
+
+[node name="BaseRoom" type="Node"]
+script = ExtResource("1_3l724")
+
+[node name="Camera" type="Camera2D" parent="."]
+enabled = false
